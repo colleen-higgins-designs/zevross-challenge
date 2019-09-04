@@ -29,11 +29,8 @@ getAllTurbines()
         !['AK', 'HI'].includes(turbineState) &&
         turbinesInfoPerState[turbineState]
       ) {
-        turbinesInfoPerState[turbineState] = {
-          number: 1 + turbinesInfoPerState[turbineState].number,
-          capacity:
-            turbinesInfoPerState[turbineState].capacity + turbineCapacity,
-        };
+        turbinesInfoPerState[turbineState].number++;
+        turbinesInfoPerState[turbineState].capacity += turbineCapacity;
       } else if (!['AK', 'HI'].includes(turbineState)) {
         turbinesInfoPerState[turbineState] = {
           number: 1,
@@ -52,7 +49,6 @@ getAllTurbines()
       el.style.height = '39px';
       el.style.backgroundImage = 'url("marker-icon.png")';
       // add marker
-      console.log('it happened', statesWithTurbines[state].coords);
       new mapboxgl.Marker(el)
         .setLngLat(statesWithTurbines[state].coords)
         .setPopup(
