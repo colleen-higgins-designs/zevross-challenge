@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ZevRoss Challenge</title>
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="no-margin">
+    <h1>Map of Wind Turbines in US</h1>
+    <div id="map" style="width: 100vw; height: 95vh;"></div>
+    <script>
+      mapboxgl.accessToken =
+        'pk.eyJ1IjoiY29sbGVlbmpveSIsImEiOiJjanYyazFsbG0wY2VmNDRsODhjbmJ1aXJtIn0.M3JrhcO_E7m4sl2Ekd1IyA';
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v9',
+        center: [-97, 40],
+        zoom: 4,
+      });
+    </script>
+  </body>
+</html>
