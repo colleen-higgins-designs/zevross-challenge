@@ -4,7 +4,7 @@ var map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/streets-v9',
   center: [-97, 40],
-  zoom: 3,
+  zoom: 4,
 });
 
 // get all wind turbines
@@ -29,8 +29,11 @@ getAllTurbines()
         !['AK', 'HI'].includes(turbineState) &&
         turbinesInfoPerState[turbineState]
       ) {
-        turbinesInfoPerState[turbineState].number++;
-        turbinesInfoPerState[turbineState].capacity += turbineCapacity;
+        turbinesInfoPerState[turbineState] = {
+          number: 1 + turbinesInfoPerState[turbineState].number,
+          capacity:
+            turbinesInfoPerState[turbineState].capacity + turbineCapacity,
+        };
       } else if (!['AK', 'HI'].includes(turbineState)) {
         turbinesInfoPerState[turbineState] = {
           number: 1,
@@ -43,7 +46,7 @@ getAllTurbines()
   })
   .then(statesWithTurbines => {
     Object.keys(statesWithTurbines).map(state => {
-      var el = document.createElement('div');
+      const el = document.createElement('div');
       el.className = 'marker';
       el.style.width = '32px';
       el.style.height = '39px';
@@ -52,6 +55,17 @@ getAllTurbines()
       console.log('it happened', statesWithTurbines[state].coords);
       new mapboxgl.Marker(el)
         .setLngLat(statesWithTurbines[state].coords)
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }).setHTML(
+            `<h3>${state} Details</h3><p>Number of Turbines: ${
+              statesWithTurbines[state].number
+            }</p><p>Total Turbine rated capacity in kilowatt (kW): ${
+              statesWithTurbines[state].capacity
+                ? statesWithTurbines[state].capacity
+                : 'Not Rated'
+            }</p>`
+          )
+        )
         .addTo(map);
     });
   });
