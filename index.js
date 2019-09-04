@@ -1,6 +1,11 @@
-const fetch = require('node-fetch');
-
-const map = document.getElementById('map');
+mapboxgl.accessToken =
+  'pk.eyJ1IjoiY29sbGVlbmpveSIsImEiOiJjazA1ajBpeWozcjFkM21tbDZncHZkMGQ1In0.25dDo49VXb3xqUUen-YE_w';
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v9',
+  center: [-97, 40],
+  zoom: 3,
+});
 
 // get all wind turbines
 const getAllTurbines = async () => {
@@ -8,7 +13,6 @@ const getAllTurbines = async () => {
     'http://files.zevross.org.s3-website-us-east-1.amazonaws.com/temp-geo/uswtdb_v2_1_20190715.geojson'
   );
   const data = await response.json();
-  // const stringData = JSON.stringify(data);
   return data;
 };
 
@@ -38,8 +42,16 @@ getAllTurbines()
     return turbinesInfoPerState;
   })
   .then(statesWithTurbines => {
-    statesWithTurbines.map(state => {
+    Object.keys(statesWithTurbines).map(state => {
+      var el = document.createElement('div');
+      el.className = 'marker';
+      el.style.width = '32px';
+      el.style.height = '39px';
+      el.style.backgroundImage = 'url("marker-icon.png")';
       // add marker
-      const marker = new mapboxgl.Marker().setLngLat(state.coords).addTo(map);
+      console.log('it happened', statesWithTurbines[state].coords);
+      new mapboxgl.Marker(el)
+        .setLngLat(statesWithTurbines[state].coords)
+        .addTo(map);
     });
   });
